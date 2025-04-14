@@ -1,0 +1,56 @@
+>>>malloy
+source: gates is duckdb.table('c:/Users/vhurt/Downloads/entrance-2022-2024.csv') extend {
+
+    rename:  entered is `In`
+
+    measure: total_in is sum(entered)
+    dimension: date_branch is concat(`Date`.day,Branch)
+}
+
+query: entered is gates -> {
+    group_by: `Date`.day, Branch
+   aggregate: total_in
+   --where: Branch = "Hillyard"
+   --order_by: total_in desc
+   limit: 10000
+}
+
+source: GEGweather is duckdb.table('c:/Users/vhurt/Downloads/spokane-weather-1.csv') extend {
+    rename: day1 is `day`
+    dimension: written_date is day1.day::date
+   -- dimension: 
+    measure: 
+    snow_days is count() {where: Snowfall > 0.01}
+    join_one: entered on written_date = entered.`Date`.day
+   -- join_one: checkouts on written_date = checkouts.day2::date.day
+}
+
+run: GEGweather -> {
+    group_by: day1, entered.total_in, Precipitation, SnowDepth, Snowfall, MaxTemperature, MinTemperature, entered.Branch
+    where: day1.year < @2025
+    limit:1000
+    order_by: day1 desc
+}
+
+>>>markdown
+##Clean data
+>>>malloy
+source: clean_weather is GEGweather extend {
+  -- Drop rows where Branch is null (like dropna on Branch)
+  where: entered.Branch is not null
+
+  -- Replace missing SnowDepth with 0
+  dimension: CleanSnowDepth is coalesce(SnowDepth, 0)
+}
+
+run: clean_weather -> {
+  group_by: entered.Branch
+  aggregate: 
+    missing_precip is count() { where: Precipitation is null }
+    missing_snowdepth is count() { where: SnowDepth is null }
+    missing_snowfall is count() { where: Snowfall is null }
+    missing_maxtemp is count() { where: MaxTemperature is null }
+    missing_mintemp is count() { where: MinTemperature is null }
+    missing_branch is count() { where: entered.Branch is null }
+    total_rows is count()
+}
