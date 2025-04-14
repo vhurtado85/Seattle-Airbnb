@@ -2,7 +2,7 @@
 
 ## Seattle ![Airbnb Logo](https://img.shields.io/badge/Airbnb-%23ff5a5f.svg?style=for-the-badge&logo=Airbnb&logoColor=white) Rental Data Insights (23 Dec 2024) from [Inside Airbnb](https://insideairbnb.com/get-the-data/)
 
-source: listings is duckdb.table(''c:/Users/vhurt/OneDrive - Gonzaga University/Spring 2025/BMIS 444/Project 2/SeattleListings.csv')
+source: listings is duckdb.table('c:/Users/vhurt/OneDrive - Gonzaga University/Spring 2025/BMIS 444/Project 2/SeattleListings.csv')
 
 query: listings_per_neighbourhood_group is listings -> {
   where: price is not null and price > 0
