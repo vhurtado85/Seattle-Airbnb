@@ -1,4 +1,4 @@
-# Seattle-Airbnb
+# Seattle-Airbnb in Malloy
 
 ## Seattle ![Airbnb Logo](https://img.shields.io/badge/Airbnb-%23ff5a5f.svg?style=for-the-badge&logo=Airbnb&logoColor=white) Rental Data Insights (23 Dec 2024) from [Inside Airbnb](https://insideairbnb.com/get-the-data/)
 
