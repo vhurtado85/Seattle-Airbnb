@@ -1,5 +1,7 @@
 # Seattle-Airbnb in Malloy
 
+Working on this project gave me the opportunity to fully engage with a real-world dataset using Malloy. I explored Airbnb listings across Seattle from 23 December 2024, diving into everything from pricing to popularity. What stood out to me was how Malloy makes querying and visual storytelling seamless—it wasn’t just numbers, it was insight. I learned how to break down listings by neighborhood and room type, compare average prices, and even segment by host behavior. The scatter plots made it clear that expensive listings don’t necessarily mean better performance—affordability and availability drive reviews. This was also my first real introduction to Markdown in practice within the platform. I used it to organize sections, embed the Airbnb and Space Needle logos, etc., and create a clean, engaging flow between visuals and narrative. That visual formatting added structure and clarity, helping the data tell its story. Lastly, this project taught me that when you combine structured queries with clean design, you don’t just build a dashboard—you build a story. Hurdles were figuring out the image embedding and resizing but also making sure that the code would run. Hopefully it can inspire you to also make a great project. 
+
 ## Seattle ![Airbnb Logo](https://img.shields.io/badge/Airbnb-%23ff5a5f.svg?style=for-the-badge&logo=Airbnb&logoColor=white) Rental Data Insights (23 Dec 2024) from [Inside Airbnb](https://insideairbnb.com/get-the-data/)
 
 source: listings is duckdb.table('c:/Users/.../Project 2/SeattleListings.csv')
