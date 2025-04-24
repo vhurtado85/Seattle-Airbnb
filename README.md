@@ -311,7 +311,68 @@ run: listings -> {
 # line_chart
 run: listings -> {
   where: price is not null and price > 0
-  group_by: listing_month is date_trunc!('month', last_review)
+  group_by: listing_month is date_trunc!('month', last_review), neighbourhood_group
   aggregate: avg_price is avg(price)
-  order_by: listing_month
+  order_by: listing_month, avg_price desc
 }
+
+* Cleaning the data to make the next steps possible
+
+# line_chart
+run: listings -> {
+  where: price is not null and price > 0
+  group_by: listing_month is date_trunc!('month', last_review), neighbourhood_group
+  aggregate: avg_price is avg(price)
+  order_by: listing_month, avg_price desc
+}
+
+# tooltip
+run: listings -> {
+  group_by: neighbourhood_group, room_type
+  aggregate: avg_price is avg(price), count_listings is count()
+  order_by: avg_price desc
+  limit: 20
+}
+
+* Adding Nesting to the Configuartion
+
+run: listings -> {
+  group_by: neighbourhood_group, room_type
+  aggregate: 
+    avg_price is avg(price),
+    count_listings is count()
+  order_by: avg_price desc
+  limit: 20
+
+  nest: monthly_stats is {
+    group_by: listing_month is date_trunc!('month', last_review)
+    aggregate: 
+      monthly_avg_price is avg(price),
+      monthly_count is count()
+    order_by: listing_month
+  }
+}
+
+* Adding the Feng Shui "ToolTip + Nesting" to make this be an awesome data source with mouse overview as compared to static data.
+
+# line_chart
+run: listings -> {
+  group_by: neighbourhood_group, room_type
+  aggregate: 
+    avg_price is avg(price),
+    count_listings is count()
+  order_by: avg_price desc
+  limit: 20
+  
+  # tooltip: 
+
+  nest: monthly_stats is {
+    group_by: listing_month is date_trunc!('month', last_review)
+    aggregate: 
+      monthly_avg_price is avg(price),
+      monthly_count is count()
+    order_by: listing_month
+  }
+}
+
+
